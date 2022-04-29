@@ -1,0 +1,36 @@
+---
+version: "2.1"
+services:
+  code-server:
+    privileged: true 
+    image: lscr.io/linuxserver/code-server
+    container_name: code-server
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Sydney
+      - PASSWORD=AgpDCXhqRWE6
+      - SUDO_PASSWORD=abc #optional
+
+    volumes:
+      - /data/code-server/config:/config
+      - /data/code-server/workspace:/data/code-server/workspace
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 8443:8443
+    restart: unless-stopped
+  jenkins-runner:
+    privileged: true 
+    image: 758133271689.dkr.ecr.ap-southeast-2.amazonaws.com/sonder-standard-jenkins
+    container_name: jenkins-runner
+    command: bash -c "while true; do sleep 100; done"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - PIP_INDEX_URL=https://nexus.shared.sondersafe.com/repository/pypi/simple
+    volumes:
+      - /data/code-server/config:/config
+      - /data/code-server/workspace:/data/code-server/workspace
+      - /var/run/docker.sock:/var/run/docker.sock
+      - 
+    restart: unless-stopped
