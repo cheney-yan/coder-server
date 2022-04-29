@@ -32,5 +32,4 @@ services:
       - /data/code-server/config:/config
       - /data/code-server/workspace:/data/code-server/workspace
       - /var/run/docker.sock:/var/run/docker.sock
-      - 
     restart: unless-stopped
